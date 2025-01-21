@@ -6,14 +6,9 @@ namespace EDM.Core.Services;
 /// Concrete implementation of IFactorService to map generator types
 /// to the correct factor values.
 /// </summary>
-public class FactorService : IFactorService
+public class FactorService(ReferenceFactors referenceFactors) : IFactorService
 {
-    private readonly ReferenceFactors _referenceFactors;
-
-    public FactorService(ReferenceFactors referenceFactors)
-    {
-        _referenceFactors = referenceFactors ?? throw new ArgumentNullException(nameof(referenceFactors));
-    }
+    private readonly ReferenceFactors _referenceFactors = referenceFactors ?? throw new ArgumentNullException(nameof(referenceFactors));
 
     public double GetValueFactor(GeneratorType generatorType)
     {
@@ -33,7 +28,7 @@ public class FactorService : IFactorService
         {
             GeneratorType.Gas => _referenceFactors.EmissionsFactor.Medium,
             GeneratorType.Coal => _referenceFactors.EmissionsFactor.High,
-            // Wind doesn't use an EmissionsFactor, return 0 or throw
+            // Wind doesn't use an EmissionsFactor, return 0
             GeneratorType.WindOffshore => 0,
             GeneratorType.WindOnshore => 0,
             _ => throw new ArgumentOutOfRangeException(nameof(generatorType), generatorType, null)

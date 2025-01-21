@@ -2,5 +2,8 @@
 
 public enum GeneratorType
 {
-    
+    WindOffshore,
+    WindOnshore,
+    Gas,
+    Coal
 }
